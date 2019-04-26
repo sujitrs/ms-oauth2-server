@@ -1,9 +1,27 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.4.RELEASE'
+		palantirVersion='0.20.1'
+	}
+	repositories {
+		mavenCentral()
+		maven { url "https://plugins.gradle.org/m2/"   }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "gradle.plugin.com.palantir.gradle.docker:gradle-docker:${palantirVersion}"
+	}
+}
+
+
+
 plugins {
 	id 'org.springframework.boot' version '2.1.4.RELEASE'
 	id 'java'
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.palantir.docker'
 
 group = 'org.sj'
 version = '0.0.1-SNAPSHOT'
@@ -23,6 +41,10 @@ ext {
 	set('springCloudVersion', 'Greenwich.SR1')
 }
 
+bootJar {
+    baseName = 'ms-oauth2-server'
+    version =  '0.1.0'
+}
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -45,6 +67,8 @@ dependencies {
 	compile group: 'javax.activation', name: 'activation', version: '1.1.1'
 	// https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
 	compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.5.RELEASE'
+	// https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter
+compile group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '2.1.1'
 	
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
@@ -59,3 +83,15 @@ dependencyManagement {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
 }
+
+task unpack(type: Copy) {
+    dependsOn bootJar
+    from(zipTree(tasks.bootJar.outputs.files.singleFile))
+    into("build/dependency")
+}
+docker {
+    name "${project.group}/${bootJar.baseName}"
+    copySpec.from(tasks.unpack.outputs).into("dependency")
+    buildArgs(['DEPENDENCY': "dependency"])
+}
+

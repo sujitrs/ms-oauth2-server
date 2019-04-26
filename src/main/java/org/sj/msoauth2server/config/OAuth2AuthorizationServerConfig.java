@@ -40,8 +40,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     @Autowired
     private Environment env;
 
-   // @Autowired
-    //@Qualifier("authenticationManagerBean")
+   
     private AuthenticationManager authenticationManager;
 
     @Value("classpath:schema.sql")
@@ -96,7 +95,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     public DataSourceInitializer dataSourceInitializer(final DataSource dataSource) {
         final DataSourceInitializer initializer = new DataSourceInitializer();
         initializer.setDataSource(dataSource);
-        initializer.setDatabasePopulator(databasePopulator());
+        //initializer.setDatabasePopulator(databasePopulator()); //Uncheck if want to create schema and insert data
         return initializer;
     }
 
