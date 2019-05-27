@@ -46,6 +46,8 @@ bootJar {
     version =  '0.1.0'
 }
 dependencies {
+	
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -68,7 +70,7 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
 	compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.5.RELEASE'
 	// https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter
-compile group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '2.1.1'
+	compile group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '2.1.1'
 	
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
