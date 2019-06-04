@@ -2,7 +2,7 @@ steps:
 - name: 'gcr.io/cloud-builders/gradle'
   args: ['build','docker']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'ms-oauth2-server']
+  args: ['push', 'gcr.io/$PROJECT_ID/ms-oauth2-server']
 images: ['ms-oauth2-server']
   
 #- name: 'gcr.io/cloud-builders/docker'
