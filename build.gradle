@@ -93,7 +93,7 @@ task unpack(type: Copy) {
 }
 docker {
     //name "${project.group}/${bootJar.baseName}"
-    name "${bootJar.baseName}"
+    name "${bootJar.baseName}:gcr.io/micros2/ms-oauth2-server"
     copySpec.from(tasks.unpack.outputs).into("dependency")
     buildArgs(['DEPENDENCY': "dependency"])
 }
