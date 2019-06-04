@@ -1,7 +1,7 @@
 buildscript {
 	ext {
 		springBootVersion = '2.1.4.RELEASE'
-		palantirVersion='0.20.1'
+		palantirVersion='0.22.1'
 	}
 	repositories {
 		mavenCentral()
@@ -18,7 +18,8 @@ buildscript {
 plugins {
 	id 'org.springframework.boot' version '2.1.4.RELEASE'
 	id 'java'
-}
+	
+	}
 
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'com.palantir.docker'
@@ -94,6 +95,7 @@ task unpack(type: Copy) {
 docker {
     //name "${project.group}/${bootJar.baseName}"
     name "${bootJar.baseName}"
+    //tags "gcr.io/micros2" 
     copySpec.from(tasks.unpack.outputs).into("dependency")
     buildArgs(['DEPENDENCY': "dependency"])
 }
