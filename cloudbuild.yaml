@@ -1,7 +1,9 @@
 steps:
 - name: 'gcr.io/cloud-builders/gradle'
   args: ['build','docker']
-images: ['ms-oauth2-server']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/ms-oauth2-server']
+images: ['gcr.io/ms-oauth2-server']
   
 #- name: 'gcr.io/cloud-builders/docker'
 #  args: ['build', '--tag=gcr.io/$PROJECT_ID/spring-boot', '.']
