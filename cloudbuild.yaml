@@ -4,10 +4,10 @@
 #- name: 'gcr.io/cloud-builders/docker'
 #  args: ['build', '--tag=gcr.io/$PROJECT_ID/spring-boot', '.']
 #images: ['gcr.io/$PROJECT_ID/spring-boot']
-steps:
-- name: 'gcr.io/cloud-builders/gradle'
-  args: ['jib']
-images: ['gcr.io/micros2/ms-aouth']
+#steps:
+#- name: 'gcr.io/cloud-builders/gradle'
+  #args: ['jib']
+#images: ['gcr.io/micros2/ms-aouth']
 #- name: 'gcr.io/cloud-builders/docker'
 #  args: ['push', 'gcr.io/$PROJECT_ID/ms-oauth2-server']
 #images: ['ms-oauth2-server']
@@ -15,3 +15,26 @@ images: ['gcr.io/micros2/ms-aouth']
 #- name: 'gcr.io/cloud-builders/docker'
 #  args: ['build', '--tag=gcr.io/$PROJECT_ID/spring-boot', '.']
 #images: ['gcr.io/$PROJECT_ID/spring-boot']
+
+substitutions:
+  _IMAGE_NAME: ms-aouth # Configure this
+
+steps:
+
+
+- # Uses the Cloud Builders Gradle image.
+  name: gcr.io/cloud-builders/gradle
+  args:
+  # Uncomment for projects that do not include Jib as a plugin.
+#  - --init-script=auto-jib.gradle
+
+  # Runs the Jib build.
+  # For advanced customizations, configure the plugin in the build.gradle.
+  - jib
+
+  # Sets the target image reference to push to.
+  - --image=gcr.io/${PROJECT_ID}/${_IMAGE_NAME}
+
+  volumes:
+  - name: user.home
+    path: /root
