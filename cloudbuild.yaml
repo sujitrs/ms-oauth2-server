@@ -7,6 +7,7 @@
 steps:
 - name: 'gcr.io/cloud-builders/gradle'
   args: ['jib']
+images: ['gcr.io/micros2/ms-aouth']
 #- name: 'gcr.io/cloud-builders/docker'
 #  args: ['push', 'gcr.io/$PROJECT_ID/ms-oauth2-server']
 #images: ['ms-oauth2-server']
